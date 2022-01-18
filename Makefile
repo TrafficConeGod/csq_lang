@@ -1,5 +1,5 @@
-SOURCES = $(shell find src -name "*.cpp")
-CURRENT_SOURCES = $(shell find src -name "*.cpp" -mmin 5)
+SOURCES = $(shell find src -name "*.cc")
+CURRENT_SOURCES = $(shell find src -name "*.cc")
 OBJECTS = $(shell find . -name "*.o")
 CC = g++
 CFLAGS = -I include -Wall -std=c++17
