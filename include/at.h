@@ -10,6 +10,11 @@ struct at_result {
 };
 
 template<typename T>
+inline bool is_in_bounds(const size_t size, T* array, size_t index) {
+    return index < size;
+}
+
+template<typename T>
 inline at_result<T> at(const size_t size, T* array, size_t index) {
     if (index >= size) {
         T value;

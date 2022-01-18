@@ -13,5 +13,5 @@ inline string construct_string(const char* str) {
 }
 void print_string(string str);
 
-void remove_parent_dirs(dynamic_string* path);
+void remove_parent_dirs(dynamic_string* out, string path);
 void strip_file_extension(dynamic_string* path);

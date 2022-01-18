@@ -11,7 +11,7 @@ build:
 	$(CC) $(CFLAGS) $(OBJECTS) -o csq.elf
 
 example: build
-	./csq.elf examples/test.csq
+	cd examples; ../csq.elf test.csq
 
 clean:
 	-rm $(OBJECTS)

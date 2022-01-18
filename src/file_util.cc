@@ -1,6 +1,13 @@
 #include "file_util.h"
 #include "string_util.h"
 #include <sys/stat.h>
+#include <unistd.h>
+
+bool file_exists(string path) {
+    char path_cstr[path.size + 1] = {0};
+    memcpy(path_cstr, path.data, path.size);
+    return access(path_cstr, F_OK) != -1;
+}
 
 size_t get_size_of_file(string path) {
     char path_cstr[path.size + 1] = {0};
