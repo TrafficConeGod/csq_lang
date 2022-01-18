@@ -3,7 +3,7 @@
 #include "const_array.h"
 
 template<typename T>
-struct mutable_array {
+struct dynamic_array {
     size_t size;
     T* data;
 
