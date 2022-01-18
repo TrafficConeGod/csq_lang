@@ -2,6 +2,9 @@
 #include <stddef.h>
 #include "const_array.h"
 
+/**
+ * @brief An array with a dynamic size and a dynamic pointer to data
+ */
 template<typename T>
 struct dynamic_array {
     size_t size;
