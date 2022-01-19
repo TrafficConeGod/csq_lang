@@ -41,10 +41,7 @@ int custom_main(const size_t args_count, const size_t* arg_sizes, char** args) {
         name.data[name.size - 2] = '.';
         name.data[name.size - 1] = 'o';
 
-        auto object_file = custom_fopen((string)name, construct_string("wb"));
-
-        compile_to_object_file({ .size = source_size, .data = source_data }, object_file);
-        fclose(object_file);
+        compile_to_object_file({ .size = source_size, .data = source_data }, (string)name);
     }
     return 0;
 }

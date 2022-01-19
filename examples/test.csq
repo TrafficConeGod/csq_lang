@@ -1,6 +1,13 @@
-using import std.io;
+// using import std.io;
+
+// int main() {
+//     printf("Hello, world!\n");
+//     return 0;
+// }
+
+#include <stdio.h>
 
 int main() {
-    printf("Hello, world!\n");
+    printf("Hello, worsld!\n");
     return 0;
 }
