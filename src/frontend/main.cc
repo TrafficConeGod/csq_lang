@@ -4,7 +4,7 @@
 #include "at.h"
 #include "string_util.h"
 #include "file_util.h"
-#include "backend/compiler.h"
+#include "backend/object.h"
 
 void catch_array_index_out_of_bounds_exception(size_t size, size_t index) {
     printf("Array index out of bounds: %zu >= %zu\n", index, size);
@@ -41,7 +41,7 @@ int custom_main(const size_t args_count, const size_t* arg_sizes, char** args) {
         name.data[name.size - 2] = '.';
         name.data[name.size - 1] = 'o';
 
-        compile_to_object_file({ .size = source_size, .data = source_data }, (string)name);
+        make_object_file({ .size = source_size, .data = source_data }, (string)name);
     }
     return 0;
 }

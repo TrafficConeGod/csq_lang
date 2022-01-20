@@ -5,4 +5,4 @@
 /**
  * @brief Compiles a source file into an object file.
  */
-void compile_to_object_file(string source, string object_path);
+void make_object_file(string source, string object_path);

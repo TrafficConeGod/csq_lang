@@ -1,9 +1,24 @@
-#include "backend/compiler.h"
+#include "backend/object.h"
 #include "at.h"
 #include "file_util.h"
-#include <stdlib.h>
+#include "heap.h"
+#include "lex.h"
 
-void compile_to_object_file(string source, string object_path) {
+void write_intermediate_source(string source, file* out) {
+    auto tokens = lex_source(source);
+
+    for (size_t i = 0; i < tokens.size; ++i) {
+        print_string((string)tokens.data[i].literal);
+        printf("\n");
+    }
+
+    for (size_t i = 0; i < tokens.size; ++i) {
+        destroy_heap_array(&tokens.data[i].literal);
+    }
+    destroy_heap_array(&tokens);
+}
+
+void make_object_file(string source, string object_path) {
     size_t command_size = object_path.size + 18;
     char command_data[command_size + 1];
     command_data[command_size] = '\0';
@@ -35,6 +50,6 @@ void compile_to_object_file(string source, string object_path) {
     }
 
     auto file = popen(command_data, "w");
-    fwrite(source.data, 1, source.size * sizeof(char), file);
+    write_intermediate_source(source, file);
     pclose(file);
 }
