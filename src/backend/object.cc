@@ -4,13 +4,15 @@
 #include "heap.h"
 #include "lex.h"
 
+#define WRITE_INTERMEDIATE_SOURCE_TO_STDOUT
+
 void write_intermediate_source(string source, file* out) {
     auto tokens = lex_source(source);
 
-    for (size_t i = 0; i < tokens.size; ++i) {
-        print_string((string)tokens.data[i].literal);
-        printf("\n");
-    }
+    // for (size_t i = 0; i < tokens.size; ++i) {
+    //     print_string((string)tokens.data[i].literal);
+    //     printf("\n");
+    // }
 
     for (size_t i = 0; i < tokens.size; ++i) {
         destroy_heap_array(&tokens.data[i].literal);
@@ -49,7 +51,12 @@ void make_object_file(string source, string object_path) {
         caught_at(command_size, command_data, i++) = '-';
     }
 
-    auto file = popen(command_data, "w");
-    write_intermediate_source(source, file);
-    pclose(file);
+    #ifdef WRITE_INTERMEDIATE_SOURCE_TO_STDOUT
+        write_intermediate_source(source, stdout);
+    #else
+        auto file = popen(command_data, "w");
+        write_intermediate_source(source, file);
+        pclose(file);
+    #endif
+
 }

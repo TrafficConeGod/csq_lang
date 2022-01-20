@@ -39,7 +39,7 @@ case '\'': { \
 } break; \
 case '\"': { \
     tokenize(&tokens, &built_literal); \
-    lex_mode = STRING; \ 
+    lex_mode = STRING; \
 } break; \
 
 void tokenize(dynamic_array<token>* tokens, dynamic_string* literal) {
@@ -129,6 +129,7 @@ dynamic_array<token> lex_source(string source) {
                     }
                 }
             } break;
+            default: break;
         }
     }
 
