@@ -13,11 +13,12 @@ enum class token_type {
     CLOSE_PAREN_SY,
     OPEN_BRACE_SY,
     CLOSE_BRACE_SY,
-    COMMA_SY,
     OPEN_BRACKET_SY,
     CLOSE_BRACKET_SY,
     OPEN_ANGLE_SY,
     CLOSE_ANGLE_SY,
+    DOT_SY,
+    COMMA_SY,
     TILDE_SY,
 
     // Math symbols
@@ -27,19 +28,12 @@ enum class token_type {
     MINUS_SY,
     STAR_SY,
     SLASH_SY,
+    PERCENT_SY,
     AND_SY,
-    OR_SY,
-    NOT_SY,
-    XOR_SY,
+    LINE_SY,
+    EXCLAMATION_SY,
+    CARROT_SY,
     
-    // Logic symbols
-
-    NOT_EQUALS_SY,
-    GREATER_THAN_SY,
-    LESS_THAN_SY,
-    GREATER_THAN_EQUALS_SY,
-    LESS_THAN_EQUALS_SY,
-
     // Identifiers
     VAR_ID,
     TYPE_ID,
