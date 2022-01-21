@@ -23,24 +23,22 @@ enum class token_type {
 
     // Math symbols
 
-    EQUALS_SY,
+    EQUAL_SY,
     PLUS_SY,
     MINUS_SY,
     STAR_SY,
     SLASH_SY,
     PERCENT_SY,
-    AND_SY,
-    LINE_SY,
-    EXCLAMATION_SY,
-    CARROT_SY,
+    AMPERSAND_SY,
+    PIPE_SY,
+    BANG_SY,
+    CARET_SY,
     
-    // Identifiers
-    VAR_ID,
-    TYPE_ID,
+    // Identifier
+    ID,
 
     // Literals
-    INT_LIT,
-    FLOAT_LIT,
+    NUMBER_LIT,
     CHAR_LIT,
     STRING_LIT,
     BOOL_LIT,
@@ -51,6 +49,7 @@ enum class token_type {
     ELSE_KW,
     WHILE_KW,
     FOR_KW,
+    RETURN_KW,
     MODULE_KW,
     USING_KW,
     IMPORT_KW

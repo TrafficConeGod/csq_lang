@@ -1,6 +1,7 @@
 #include "lex.h"
 #include "heap.h"
 #include "at.h"
+#include <ctype.h>
 
 #define CASE_WHITESPACE \
 case 0xD: \
@@ -32,28 +33,96 @@ case '|': \
 case '!': \
 case '^' \
 
-#define CHAR_STRING_CASE_IMPL \
+#define CHAR_STRING_CASE_IMPL(get_token_type) \
 case '\'': { \
-    tokenize(&tokens, &built_literal); \
+    tokenize(&tokens, get_token_type((string)built_literal), &built_literal); \
     lex_mode = CHAR; \
 } break; \
 case '\"': { \
-    tokenize(&tokens, &built_literal); \
+    tokenize(&tokens, get_token_type((string)built_literal), &built_literal); \
     lex_mode = STRING; \
 } break; \
 
-token_type get_token_type(dynamic_string* literal) {
-    // switch (literal->size) {
-    //     case 1: {
+auto true_lit = construct_string("true");
+auto false_lit = construct_string("false");
+auto auto_kw = construct_string("auto");
+auto if_kw = construct_string("if");
+auto else_kw = construct_string("else");
+auto while_kw = construct_string("while");
+auto for_kw = construct_string("for");
+auto return_kw = construct_string("return");
+auto module_kw = construct_string("module");
+auto using_kw = construct_string("using");
+auto import_kw = construct_string("import");
 
-    //     } break;
-    // }
-    return token_type::INVALID;
+token_type get_word_token_type(string literal) {
+    switch (literal.size) {
+        case 2: {
+            if (compare_string(literal, if_kw)) { return token_type::IF_KW; }
+        } break;
+        case 3: {
+            if (compare_string(literal, for_kw)) { return token_type::FOR_KW; }
+        } break;
+        case 4: {
+            if (compare_string(literal, true_lit)) { return token_type::BOOL_LIT; }
+            else if (compare_string(literal, auto_kw)) { return token_type::AUTO_KW; }
+            else if (compare_string(literal, else_kw)) { return token_type::ELSE_KW; }
+        } break;
+        case 5: {
+            if (compare_string(literal, false_lit)) { return token_type::BOOL_LIT; }
+            if (compare_string(literal, while_kw)) { return token_type::WHILE_KW; }
+            if (compare_string(literal, using_kw)) { return token_type::USING_KW; }
+        } break;
+        case 6: {
+            if (compare_string(literal, return_kw)) { return token_type::RETURN_KW; }
+            if (compare_string(literal, module_kw)) { return token_type::MODULE_KW; }
+            if (compare_string(literal, import_kw)) { return token_type::IMPORT_KW; }
+        } break;
+        default: break;
+    }
+    for (size_t i = 0; i < literal.size; ++i) {
+        if (isdigit(literal.data[i])) {
+            return token_type::NUMBER_LIT;
+        }
+    }
+    return token_type::ID;
 }
 
-void tokenize(dynamic_array<token>* tokens, dynamic_string* literal) {
+token_type get_symbol_token_type(string literal) {
+    if (literal.size == 1) {
+        switch (literal.data[0]) {
+            case ';': return token_type::SEMICOLON_SY;
+            case '(': return token_type::OPEN_PAREN_SY;
+            case ')': return token_type::CLOSE_PAREN_SY;
+            case '{': return token_type::OPEN_BRACE_SY;
+            case '}': return token_type::CLOSE_BRACE_SY;
+            case '[': return token_type::OPEN_BRACKET_SY;
+            case ']': return token_type::CLOSE_BRACKET_SY;
+            case '<': return token_type::OPEN_ANGLE_SY;
+            case '>': return token_type::CLOSE_ANGLE_SY;
+            case '.': return token_type::DOT_SY;
+            case ',': return token_type::COMMA_SY;
+            case '~': return token_type::TILDE_SY;
+            case '=': return token_type::EQUAL_SY;
+            case '+': return token_type::PLUS_SY;
+            case '-': return token_type::MINUS_SY;
+            case '*': return token_type::STAR_SY;
+            case '/': return token_type::SLASH_SY;
+            case '%': return token_type::PERCENT_SY;
+            case '&': return token_type::AMPERSAND_SY;
+            case '|': return token_type::PIPE_SY;
+            case '!': return token_type::BANG_SY;
+            case '^': return token_type::CARET_SY;
+            default: return token_type::INVALID;
+        }
+    } else {
+        return token_type::INVALID;
+    }
+}
+
+void tokenize(dynamic_array<token>* tokens, token_type type, dynamic_string* literal) {
     if (literal->size > 0) {
-        push_to_heap_array(tokens, { .type = get_token_type(literal), .literal = *literal });
+        push_to_heap_array(tokens, { .type = type, .literal = *literal });
         disown_heap_array(literal);
     }
 }
@@ -78,29 +147,29 @@ dynamic_array<token> lex_source(string source) {
         switch (lex_mode) {
             case WORD: {
                 switch (ch) {
-                    CASE_WHITESPACE: tokenize(&tokens, &built_literal); break;
+                    CASE_WHITESPACE: tokenize(&tokens, get_word_token_type((string)built_literal), &built_literal); break;
                     CASE_SYMBOL: {
-                        tokenize(&tokens, &built_literal);
+                        tokenize(&tokens, get_word_token_type((string)built_literal), &built_literal);
                         push_to_heap_array(&built_literal, ch);
                         lex_mode = SYMBOL;
                     } break;
-                    CHAR_STRING_CASE_IMPL;
+                    CHAR_STRING_CASE_IMPL(get_word_token_type);
                     default: push_to_heap_array(&built_literal, ch);
                 }
             } break;
             case SYMBOL: {
                 switch (ch) {
                     CASE_WHITESPACE: {
-                        tokenize(&tokens, &built_literal);
+                        tokenize(&tokens, get_symbol_token_type((string)built_literal), &built_literal);
                         lex_mode = WORD;
                     } break;
                     CASE_SYMBOL: {
-                        tokenize(&tokens, &built_literal);
+                        tokenize(&tokens, get_symbol_token_type((string)built_literal), &built_literal);
                         push_to_heap_array(&built_literal, ch);
                     } break;
-                    CHAR_STRING_CASE_IMPL;
+                    CHAR_STRING_CASE_IMPL(get_symbol_token_type);
                     default: {
-                        tokenize(&tokens, &built_literal);
+                        tokenize(&tokens, get_symbol_token_type((string)built_literal), &built_literal);
                         push_to_heap_array(&built_literal, ch);
                         lex_mode = WORD;
                     } break;
@@ -117,20 +186,19 @@ dynamic_array<token> lex_source(string source) {
                         case '\"': push_to_heap_array(&built_literal, '\"'); break;
                         default: break;
                     }
-                    tokenize(&tokens, &built_literal);
                     escaped = false;
                 } else {
                     switch (ch) {
                         case '\\': escaped = true; break;
                         case '\'': {
                             if (lex_mode == CHAR) {
-                                tokenize(&tokens, &built_literal);
+                                tokenize(&tokens, token_type::CHAR_LIT, &built_literal);
                                 lex_mode = WORD;
                             }
                         } break;
                         case '\"': {
                             if (lex_mode == STRING) {
-                                tokenize(&tokens, &built_literal);
+                                tokenize(&tokens, token_type::STRING_LIT, &built_literal);
                                 lex_mode = WORD;
                             }
                         } break;

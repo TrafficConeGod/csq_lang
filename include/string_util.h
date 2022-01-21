@@ -25,6 +25,14 @@ inline string construct_string(const char* str) {
 }
 
 /**
+ * @brief Compares if two strings are equal
+ */
+inline bool compare_string(string str1, string str2) {
+    if (str1.size != str2.size) { return false; }
+    return memcmp(str1.data, str2.data, str1.size) == 0;
+}
+
+/**
  * @brief Prints a string
  */
 void print_string(string str);

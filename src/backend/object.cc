@@ -11,7 +11,7 @@ void write_intermediate_source(string source, file* out) {
 
     for (size_t i = 0; i < tokens.size; ++i) {
         print_string((string)tokens.data[i].literal);
-        printf("\n");
+        printf(" %d\n", tokens.data[i].type);
     }
 
     for (size_t i = 0; i < tokens.size; ++i) {
