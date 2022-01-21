@@ -28,7 +28,7 @@ void remove_parent_dirs(dynamic_string* out, string path) {
         }
     } else {
         out->size = path.size;
-        memcpy(out->data, path.data, out->size);
+        copy_array_range(path, out, out->size);
     }
 }
 

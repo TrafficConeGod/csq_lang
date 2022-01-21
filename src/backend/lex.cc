@@ -42,9 +42,18 @@ case '\"': { \
     lex_mode = STRING; \
 } break; \
 
+token_type get_token_type(dynamic_string* literal) {
+    switch (literal->size) {
+        case 1: {
+
+        } break;
+    }
+    return token_type::INVALID;
+}
+
 void tokenize(dynamic_array<token>* tokens, dynamic_string* literal) {
     if (literal->size > 0) {
-        push_to_heap_array(tokens, { .type = token_type::INVALID, .literal = *literal });
+        push_to_heap_array(tokens, { .type = get_token_type(literal), .literal = *literal });
         disown_heap_array(literal);
     }
 }

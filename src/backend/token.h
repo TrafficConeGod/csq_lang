@@ -50,6 +50,7 @@ enum class token_type {
     ELSE_KW,
     WHILE_KW,
     FOR_KW,
+    MODULE_KW,
     USING_KW,
     IMPORT_KW,
     AUTO_KW

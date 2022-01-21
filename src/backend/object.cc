@@ -4,15 +4,15 @@
 #include "heap.h"
 #include "lex.h"
 
-#define WRITE_INTERMEDIATE_SOURCE_TO_STDOUT
+// #define WRITE_INTERMEDIATE_SOURCE_TO_STDOUT
 
 void write_intermediate_source(string source, file* out) {
     auto tokens = lex_source(source);
 
-    // for (size_t i = 0; i < tokens.size; ++i) {
-    //     print_string((string)tokens.data[i].literal);
-    //     printf("\n");
-    // }
+    for (size_t i = 0; i < tokens.size; ++i) {
+        print_string((string)tokens.data[i].literal);
+        printf("\n");
+    }
 
     for (size_t i = 0; i < tokens.size; ++i) {
         destroy_heap_array(&tokens.data[i].literal);
