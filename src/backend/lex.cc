@@ -43,11 +43,11 @@ case '\"': { \
 } break; \
 
 token_type get_token_type(dynamic_string* literal) {
-    switch (literal->size) {
-        case 1: {
+    // switch (literal->size) {
+    //     case 1: {
 
-        } break;
-    }
+    //     } break;
+    // }
     return token_type::INVALID;
 }
 
