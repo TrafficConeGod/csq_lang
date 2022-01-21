@@ -1,0 +1,34 @@
+using import std.io;
+using import std.lib;
+using import std.string;
+using file = import std.file;
+using import util.file;
+using import backend.object;
+
+int main(const size_t args_count, size_t[args_count]* args_sizes, char[i : arg_sizes[i]][args_count]* args) {
+    // Create object files for each input file.
+    for (size_t i = 1; i < args_count; ++i) {
+        string source_file_path = { size = arg_sizes[i], data = args[i] };
+
+        if (!file.exists(source_file_path)) {
+            print("File not found: ", source_file_path, "\n");
+            continue;
+        }
+
+        mutable_stack_string source = { size = get_size_of_file(source_file_path) };
+
+        auto source_file = file.open(source_file_path, construct_string_from_literal("rb"));
+        file.read(source_file, deref_array_ptr(&source));
+        file.close(source_file);
+    
+        auto source_file_name = remove_parent_dirs(source_file_path);
+        auto source_file_base_name = strip_file_extension(deref_array(source_file_name));
+
+        mutable_stack_string object_file_name = { size = source_file_base_name.size + 2, data = source_file_base_name.data };
+        object_file_name[source_file_base_name.size] = '.';
+        object_file_name[source_file_base_name.size + 1] = 'o';
+
+        make_object_file(deref_array(source), deref_array(object_file_name));
+    }
+    return 0;
+}
