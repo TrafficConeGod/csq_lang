@@ -43,6 +43,13 @@ case '\"': { \
     lex_mode = STRING; \
 } break; \
 
+#define COMMENT_IMPL(get_token_type) \
+if (ch == '/' && is_in_bounds(source.size, source.data, i + 1) && (source.data[i + 1] == '/' || source.data[i + 1] == '*')) { \
+    tokenize(&tokens, get_token_type((string)built_literal), &built_literal); \
+    lex_mode = source.data[i + 1] == '/' ? COMMENT : MULTILINE_COMMENT; \
+    break; \
+} \
+
 auto true_lit = construct_string("true");
 auto false_lit = construct_string("false");
 auto auto_kw = construct_string("auto");
@@ -136,7 +143,8 @@ dynamic_array<token> lex_source(string source) {
         SYMBOL,
         CHAR,
         STRING,
-        COMMENT
+        COMMENT,
+        MULTILINE_COMMENT
     } lex_mode = WORD;
 
     bool escaped = false;
@@ -146,6 +154,7 @@ dynamic_array<token> lex_source(string source) {
 
         switch (lex_mode) {
             case WORD: {
+                COMMENT_IMPL(get_word_token_type)
                 switch (ch) {
                     CASE_WHITESPACE: tokenize(&tokens, get_word_token_type((string)built_literal), &built_literal); break;
                     CASE_SYMBOL: {
@@ -158,6 +167,7 @@ dynamic_array<token> lex_source(string source) {
                 }
             } break;
             case SYMBOL: {
+                COMMENT_IMPL(get_word_token_type)
                 switch (ch) {
                     CASE_WHITESPACE: {
                         tokenize(&tokens, get_symbol_token_type((string)built_literal), &built_literal);
@@ -204,6 +214,15 @@ dynamic_array<token> lex_source(string source) {
                         } break;
                         default: push_to_heap_array(&built_literal, ch); break;
                     }
+                }
+            } break;
+            case COMMENT: {
+                if (ch == '\n') { lex_mode = WORD; }
+            } break;
+            case MULTILINE_COMMENT: {
+                if (ch == '*' && is_in_bounds(source.size, source.data, i + 1) && source.data[i + 1] == '/') {
+                    i++;
+                    lex_mode = WORD;
                 }
             } break;
             default: break;

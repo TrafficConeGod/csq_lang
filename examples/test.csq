@@ -2,7 +2,7 @@ module main;
 using import std.io;
 using file = import std.file;
 
-int main() {
-    print("Hello, world!", 20, "\n");
-    return 0;
-}
+// int main() {
+//     print("Hello, world!", 20, "\n");
+//     return 0;
+// }
