@@ -24,7 +24,7 @@ int custom_main(const size_t args_count, const size_t* arg_sizes, char** args) {
         }
 
         auto source_size = get_size_of_file(source_file_path);
-        char source_data[source_size + 1];
+        char source_data[source_size];
 
         auto source_file = custom_fopen(source_file_path, construct_string("rb"));
         fread(source_data, 1, source_size, source_file);

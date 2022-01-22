@@ -14,7 +14,7 @@ size_t get_size_of_file(string path) {
     memcpy(path_cstr, path.data, path.size);
     struct stat st;
     stat(path_cstr, &st);
-    return st.st_size;
+    return st.st_size + 1;
 }
 
 file* custom_fopen(string path, string mode) {
