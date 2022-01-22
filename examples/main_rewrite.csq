@@ -1,3 +1,4 @@
+module main;
 using import std.io;
 using import std.lib;
 using import std.string;
@@ -8,7 +9,7 @@ using import backend.object;
 int main(const size_t args_count, size_t[args_count]* args_sizes, char[i : arg_sizes[i]][args_count]* args) {
     // Create object files for each input file.
     for (size_t i = 1; i < args_count; ++i) {
-        string source_file_path = { size = *arg_sizes[i], data = *args[i] };
+        string source_file_path = { size = arg_sizes[i], data = args[i] };
 
         if (!file.exists(source_file_path)) {
             print("File not found: ", source_file_path, "\n");
