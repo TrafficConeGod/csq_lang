@@ -1,0 +1,42 @@
+module std.io;
+import cstd.io;
+
+void write_number<T>(T number, uint base, uint min_digits) {
+    uint digits = 0;
+    T current = number;
+
+    while (current != 0) {
+        current /= T(base);
+        digits++;
+    }
+
+    if (digits < min_digits) {
+        digits = min_digits;
+    }
+    if (number == 0 && digits == 0) {
+        digits = 1;
+    }
+
+    char[digits] number_string;
+
+    for (uint i = 0; i < digits; i++) {
+        uint digit = uint(number) % base;
+        number /= T(base);
+
+        uint<1> byte = digit >= 10 ? 0x41 + (digit - 10) : 0x30 + digit;
+        number_string[(digits - 1) - i] = (char)byte;
+    }
+    cstd.io.puts(digits, number_string);
+}
+
+[T = int<*>|uint<*>|float<*>]
+inline void write<type T>(T val) {
+    write_number<T>(val, 10, 1);
+}
+
+inline void print<type T>() {}
+
+inline void print<type T, type U...>(T first_arg, U... args) {
+    write(first_arg);
+    print<U...>(args...);
+}
