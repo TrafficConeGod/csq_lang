@@ -13,7 +13,7 @@ void remove_parent_dirs(dynamic_string* out, string path) {
     size_t slash_index;
     for (size_t i = 0; i < path.size; i++) {
         size_t back_index = (path.size - 1) - i;
-        if (caught_at(path.size, path.data, back_index) == '/') {
+        if (at(path.size, path.data, back_index) == '/') {
             if (is_in_bounds(path.size, path.data, back_index + 1)) {
                 has_slash = true;
                 slash_index = back_index + 1;
@@ -24,7 +24,7 @@ void remove_parent_dirs(dynamic_string* out, string path) {
     if (has_slash) {
         out->size = path.size - slash_index;
         for (size_t i = slash_index; i < path.size; i++) {
-            caught_at(out->size, out->data, i - slash_index) = path.data[i];
+            at(out->size, out->data, i - slash_index) = path.data[i];
         }
     } else {
         out->size = path.size;
@@ -35,7 +35,7 @@ void remove_parent_dirs(dynamic_string* out, string path) {
 void strip_file_extension(dynamic_string* path) {
     for (size_t i = 0; i < path->size; i++) {
         size_t back_index = (path->size - 1) - i;
-        if (caught_at(path->size, path->data, back_index) == '.') {
+        if (at(path->size, path->data, back_index) == '.') {
             path->size -= (path->size - back_index);
             return;
         }

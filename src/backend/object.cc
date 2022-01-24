@@ -27,28 +27,28 @@ void make_object_file(string source, string object_path) {
     
     {
         size_t i = 0;
-        caught_at(command_size, command_data, i++) = 'g';
-        caught_at(command_size, command_data, i++) = 'c';
-        caught_at(command_size, command_data, i++) = 'c';
-        caught_at(command_size, command_data, i++) = ' ';
-        caught_at(command_size, command_data, i++) = '-';
-        caught_at(command_size, command_data, i++) = 'x';
-        caught_at(command_size, command_data, i++) = ' ';
-        caught_at(command_size, command_data, i++) = 'c';
-        caught_at(command_size, command_data, i++) = ' ';
-        caught_at(command_size, command_data, i++) = '-';
-        caught_at(command_size, command_data, i++) = 'c';
-        caught_at(command_size, command_data, i++) = ' ';
-        caught_at(command_size, command_data, i++) = '-';
-        caught_at(command_size, command_data, i++) = 'o';
-        caught_at(command_size, command_data, i++) = ' ';
+        at(command_size, command_data, i++) = 'g';
+        at(command_size, command_data, i++) = 'c';
+        at(command_size, command_data, i++) = 'c';
+        at(command_size, command_data, i++) = ' ';
+        at(command_size, command_data, i++) = '-';
+        at(command_size, command_data, i++) = 'x';
+        at(command_size, command_data, i++) = ' ';
+        at(command_size, command_data, i++) = 'c';
+        at(command_size, command_data, i++) = ' ';
+        at(command_size, command_data, i++) = '-';
+        at(command_size, command_data, i++) = 'c';
+        at(command_size, command_data, i++) = ' ';
+        at(command_size, command_data, i++) = '-';
+        at(command_size, command_data, i++) = 'o';
+        at(command_size, command_data, i++) = ' ';
 
         for (size_t j = 0; j < object_path.size; ++j) {
-            caught_at(command_size, command_data, i++) = object_path.data[j];
+            at(command_size, command_data, i++) = object_path.data[j];
         }
 
-        caught_at(command_size, command_data, i++) = ' ';
-        caught_at(command_size, command_data, i++) = '-';
+        at(command_size, command_data, i++) = ' ';
+        at(command_size, command_data, i++) = '-';
     }
 
     #ifdef WRITE_INTERMEDIATE_SOURCE_TO_STDOUT
