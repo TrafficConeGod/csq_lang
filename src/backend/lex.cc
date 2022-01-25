@@ -44,7 +44,7 @@ case '\"': { \
 } break; \
 
 #define COMMENT_IMPL(get_token_type) \
-if (ch == '/' && is_in_bounds(source.size, source.data, i + 1) && (source.data[i + 1] == '/' || source.data[i + 1] == '*')) { \
+if (ch == '/' && is_in_bounds(source.size, i + 1) && (source.data[i + 1] == '/' || source.data[i + 1] == '*')) { \
     tokenize(&tokens, get_token_type((string)built_literal), &built_literal); \
     lex_mode = source.data[i + 1] == '/' ? COMMENT : MULTILINE_COMMENT; \
     break; \
@@ -220,7 +220,7 @@ dynamic_array<token> lex_source(string source) {
                 if (ch == '\n') { lex_mode = WORD; }
             } break;
             case MULTILINE_COMMENT: {
-                if (ch == '*' && is_in_bounds(source.size, source.data, i + 1) && source.data[i + 1] == '/') {
+                if (ch == '*' && is_in_bounds(source.size, i + 1) && source.data[i + 1] == '/') {
                     i++;
                     lex_mode = WORD;
                 }

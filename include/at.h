@@ -6,17 +6,8 @@ void catch_array_index_out_of_bounds_exception(const size_t size, size_t index);
 /**
  * @brief Returns if an index is inside of array bounds
  */
-template<typename T>
 inline bool is_in_bounds(size_t size, size_t index) {
-    return index < (size * sizeof(T));
-}
-
-/**
- * @brief Returns if an index is inside of array bounds
- */
-template<typename T>
-inline bool is_in_bounds(size_t size, T* arr, size_t index) {
-    return index < (size * sizeof(T));
+    return index < size;
 }
 
 /**
@@ -26,7 +17,7 @@ inline bool is_in_bounds(size_t size, T* arr, size_t index) {
  */
 template<typename T>
 inline T& at(const size_t size, T* array, size_t index) {
-    if (index >= (size * sizeof(T))) {
+    if (!is_in_bounds(size, index)) {
         catch_array_index_out_of_bounds_exception(size, index);
     }
     return array[index];

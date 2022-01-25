@@ -14,7 +14,7 @@ void remove_parent_dirs(dynamic_string* out, string path) {
     for (size_t i = 0; i < path.size; i++) {
         size_t back_index = (path.size - 1) - i;
         if (at(path.size, path.data, back_index) == '/') {
-            if (is_in_bounds(path.size, path.data, back_index + 1)) {
+            if (is_in_bounds(path.size, back_index + 1)) {
                 has_slash = true;
                 slash_index = back_index + 1;
             }
