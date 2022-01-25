@@ -22,8 +22,8 @@ int main(const size_t args_count, size_t[args_count]* args_sizes, char[i : arg_s
         file.read(source_file, deref_array_ptr(&source));
         file.close(source_file);
     
-        auto source_file_name = remove_parent_dirs(source_file_path);
-        auto source_file_base_name = strip_file_extension(deref_array(source_file_name));
+        remove_parent_dirs(deref_array_ptr(&source_file_path));
+        strip_file_extension(deref_array_ptr(&source_file_path));
 
         mutable_stack_string object_file_name = { size = source_file_base_name.size + 2, data = source_file_base_name.data };
         object_file_name[source_file_base_name.size] = '.';
