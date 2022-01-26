@@ -1,6 +1,5 @@
 module main;
-using import std.io;
-using file = import std.file;
+import std.io into *;
 
 // int main() {
 //     print("Hello, world!", 20, "\n");

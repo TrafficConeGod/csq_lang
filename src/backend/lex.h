@@ -51,8 +51,10 @@ enum class token_type {
     FOR_KW,
     RETURN_KW,
     MODULE_KW,
-    USING_KW,
-    IMPORT_KW
+    IMPORT_KW,
+    INTO_KW,
+    TYPE_KW,
+    STRUCT_KW
 };
 
 struct token {

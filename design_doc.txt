@@ -1,5 +1,3 @@
-CSQ Design Document
-
 Module system:
 Module id must be declared at the start of a file: module <module id>;
 Modules can be imported by module id into the namespace of that module id: import <module id>;

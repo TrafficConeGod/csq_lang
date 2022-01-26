@@ -59,8 +59,10 @@ auto while_kw = construct_string("while");
 auto for_kw = construct_string("for");
 auto return_kw = construct_string("return");
 auto module_kw = construct_string("module");
-auto using_kw = construct_string("using");
 auto import_kw = construct_string("import");
+auto into_kw = construct_string("into");
+auto type_kw = construct_string("type");
+auto struct_kw = construct_string("struct");
 
 token_type get_word_token_type(string literal) {
     switch (literal.size) {
@@ -74,16 +76,18 @@ token_type get_word_token_type(string literal) {
             if (compare_string(literal, true_lit)) { return token_type::BOOL_LIT; }
             else if (compare_string(literal, auto_kw)) { return token_type::AUTO_KW; }
             else if (compare_string(literal, else_kw)) { return token_type::ELSE_KW; }
+            else if (compare_string(literal, into_kw)) { return token_type::INTO_KW; }
+            else if (compare_string(literal, type_kw)) { return token_type::TYPE_KW; }
         } break;
         case 5: {
             if (compare_string(literal, false_lit)) { return token_type::BOOL_LIT; }
             if (compare_string(literal, while_kw)) { return token_type::WHILE_KW; }
-            if (compare_string(literal, using_kw)) { return token_type::USING_KW; }
         } break;
         case 6: {
             if (compare_string(literal, return_kw)) { return token_type::RETURN_KW; }
             if (compare_string(literal, module_kw)) { return token_type::MODULE_KW; }
             if (compare_string(literal, import_kw)) { return token_type::IMPORT_KW; }
+            if (compare_string(literal, struct_kw)) { return token_type::STRUCT_KW; }
         } break;
         default: break;
     }
