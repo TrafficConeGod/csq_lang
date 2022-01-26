@@ -1,6 +1,7 @@
 module main;
 import std.io into *;
 import std.lib into *;
+import std.array into *;
 import std.string into *;
 import std.file into file;
 import util.file into file;
@@ -18,7 +19,7 @@ int main(const size_t args_count, size_t[args_count]* args_sizes, char[i : arg_s
 
         mutable_stack_string source = { size = file.get_size_of_file(source_file_path) };
 
-        auto source_file = file.open(source_file_path, construct_string_from_literal("rb"));
+        auto source_file = file.open(source_file_path, { data = "rb" });
         file.read(source_file, deref_array_ptr(&source));
         file.close(source_file);
     
