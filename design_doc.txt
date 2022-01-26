@@ -1,0 +1,27 @@
+CSQ Design Document
+
+Module system:
+Module id must be declared at the start of a file: module <module id>;
+Modules can be imported by module id into the namespace of that module id: import <module id>;
+Modules can be imported into any specific namespace: import <module id> into <namespace>;
+Modules can be imported into the global namespace: import <module id> into *; 
+
+Base types:
+char<size = 1>: '<single character>'
+int<size = 4>: <integer literal>
+uint<size = 4>: <positive integer literal>
+float<size = 4>: number literal
+bool: true or false
+
+When casting with (T)value syntax the data is reinterpreted for casting but the raw data does not change, which is equivalent to a *(T*)&value cast in C.
+There is also the T(value) syntax which for single value types (non structs) will reconstruct the type, this only works for certain constructions like int<*> <-> float<*>
+
+Extended types:
+T&: Compile time reference to a variable (not a pointer). Can be construted as <value>.
+T[integer&]: Array type, the integer& is a reference to a size of array. Can be constructed like in c. When constructed the array is put on the stack. Indexing syntax is <array>[<index>]. Indexing out of array size will throw an index out of bounds exception.
+T*: Memory pointer to a value. Constructed as &<value> and to get the value back *<value>, array and struct indexing can still be done with [] and dot syntax.
+R(A...): Function pointer R is the return type and A is the args.
+
+Type system:
+New types can be declared from other types, these are not aliased types and must be explicitly casted from any other type (including the type being referenced): type <new type> = <other type>;
+Struct types can also be made: type <new type> = struct <struct definition>;
